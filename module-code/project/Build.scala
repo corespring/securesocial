@@ -20,7 +20,7 @@ object ApplicationBuild extends Build {
 
     val main = play.Project(appName, appVersion, appDependencies).settings(
     ).settings(
-      publishMavenStyle := false,
+      publishMavenStyle := true,
       organization := "org.corespring",
       resolvers ++= Seq(
         "jBCrypt Repository" at "http://repo1.maven.org/maven2/org/",
