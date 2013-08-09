@@ -26,6 +26,7 @@ object ApplicationBuild extends Build {
         "jBCrypt Repository" at "http://repo1.maven.org/maven2/org/",
         "Typesafe Repository" at "http://repo.typesafe.com/typesafe/releases/"
       ),
+      credentials += Credentials(Path.userHome / ".ivy2" / ".credentials"),
       publishTo <<= version {
         (v: String) =>
           def isSnapshot = v.trim.contains("-")
