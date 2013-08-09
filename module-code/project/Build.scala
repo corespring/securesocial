@@ -5,7 +5,12 @@ import play.Project._
 object ApplicationBuild extends Build {
 
     val appName         = "securesocial"
-    val appVersion      = "master-SNAPSHOT"
+    val baseVersion     = "master"
+
+    lazy val appVersion = {
+      val other = Process("git rev-parse --short HEAD").lines.head
+      baseVersion + "-" + other
+    }
 
     val appDependencies = Seq(
       "com.typesafe" %% "play-plugins-util" % "2.1.0",
@@ -16,17 +21,18 @@ object ApplicationBuild extends Build {
     val main = play.Project(appName, appVersion, appDependencies).settings(
     ).settings(
       publishMavenStyle := false,
+      organization := "org.corespring",
       resolvers ++= Seq(
         "jBCrypt Repository" at "http://repo1.maven.org/maven2/org/",
         "Typesafe Repository" at "http://repo.typesafe.com/typesafe/releases/"
       ),
-      publishTo <<= (version) { version: String =>
-	val scalasbt = "http://repo.scala-sbt.org/scalasbt/"
-   	val (name, url) = if (version.contains("-SNAPSHOT"))
-     	  ("sbt-plugin-snapshots", scalasbt+"sbt-plugin-snapshots")
-   	else
-          ("sbt-plugin-releases", scalasbt+"sbt-plugin-releases")
-         Some(Resolver.url(name, new URL(url))(Resolver.ivyStylePatterns))
+      publishTo <<= version {
+        (v: String) =>
+          def isSnapshot = v.trim.contains("-")
+          val base = "http://ec2-107-22-19-173.compute-1.amazonaws.com/artifactory"
+          val repoType = if (isSnapshot) "snapshot" else "release"
+          val finalPath = base + "/ivy-" + repoType + "s"
+          Some( "Artifactory Realm" at finalPath )
       }
     )
 
