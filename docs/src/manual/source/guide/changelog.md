@@ -5,30 +5,44 @@ file: changelog
 
 *This is the change log for the SecureSocial 2 version. Check the [1.x](https://github.com/jaliss/securesocial/tree/1.x) branch if you're interested in SecureSocial 1.*
 
+**2.1.2   - 2013-11-01**
+
+- Fixed example for view customization docs (thanks @yankov)
+- Enable retrieving email address from LinkedIn (thanks @targeter)
+- Added strings to securesocial.conf in demos (thanks @alanrodas)
+- Added idLengthInBytes property to customize the length of session ids (based on changes by @mkubala)
+- Improved RoutesHelper to handle multiple assets properly (based on changes by @danielkza)
+- Fixed typo in example config (thanks @dhruvbhatia)
+- Translation for Dutch (thanks @gerbrand)
+- Add indication to register event listeners in play.plugins (thanks @OlivierBlanvillain)
+- Added OAuth2 provider for LinkedIn (thanks @gmethvin)
+- Upgraded to Play 2.2
+- Updated docs to reflect API changes done for 2.1.1
+
 **2.1.1   - 2013-08-08**
 
-                - Renamed class name UserId to IdentityId (breaks backwards compatibility)
-                - Renamed id field in UserId to userId (breaks backwards compatibility)
-                - Renamed id field in Identity to identityId (breaks backwards compatibility)
+- Renamed class name UserId to IdentityId (breaks backwards compatibility)
+- Renamed id field in UserId to userId (breaks backwards compatibility)
+- Renamed id field in Identity to identityId (breaks backwards compatibility)
 
 **2.1.0   - 2013-08-08**
 
-                - Upgraded to Play 2.1.3
-                - Added a enableRefererAsOriginalUrl property to enable/disable the use of the referer as the originalUrl
-                  since this was causing issues for some people (defaults to false).  This is a temporary until a final
-                  solution is developed.
-                - Use referer if originalUrl is not available when the login/signup page is hit (thanks @magro)
-                - Fixed: Facebook login error when using the publish_stream scope (thanks @fedefrappi)
-                - Fixed: make minimum default password length to 8 (thanks @wsargent)
-                - Fixed: ClassCastException on application reload (dev mode) when using Events (thanks @magro)
-                - Added: Serve the login page using SSL (thanks @magro)
-                - Fixed: Do not prevent login on missing google profile info (thanks @chazmcgarvey)
-                - Fixed: NoSuchElementException in FoursquareProvider (thanks @thesmith)
-                - Moved RequestWithUser outside the SecureSocial controller
-                - Allow overriding Registration step redirect targets. (thanks @magro)
-                - Added the email to the flash messages in Registration.handleStartSignUp (thanks @magro)
-                - Added support for plain text, html and multipart emails in TemplatesPlugin (thanks @magro)
-                - Made SecureSocial compatible with Play 2.1 [master branch, 2.0.x branch is for Play 2.0 versions now].
+- Upgraded to Play 2.1.3
+- Added a enableRefererAsOriginalUrl property to enable/disable the use of the referer as the originalUrl
+  since this was causing issues for some people (defaults to false).  This is a temporary until a final
+  solution is developed.
+- Use referer if originalUrl is not available when the login/signup page is hit (thanks @magro)
+- Fixed: Facebook login error when using the publish_stream scope (thanks @fedefrappi)
+- Fixed: make minimum default password length to 8 (thanks @wsargent)
+- Fixed: ClassCastException on application reload (dev mode) when using Events (thanks @magro)
+- Added: Serve the login page using SSL (thanks @magro)
+- Fixed: Do not prevent login on missing google profile info (thanks @chazmcgarvey)
+- Fixed: NoSuchElementException in FoursquareProvider (thanks @thesmith)
+- Moved RequestWithUser outside the SecureSocial controller
+- Allow overriding Registration step redirect targets. (thanks @magro)
+- Added the email to the flash messages in Registration.handleStartSignUp (thanks @magro)
+- Added support for plain text, html and multipart emails in TemplatesPlugin (thanks @magro)
+- Made SecureSocial compatible with Play 2.1 [master branch, 2.0.x branch is for Play 2.0 versions now].
 
 **2.0.12  - 2013-02-25**
 

@@ -1,5 +1,5 @@
 /**
- * Copyright 2012 Jorge Aliss (jaliss at gmail dot com) - twitter: @jaliss
+ * Copyright 2013 Greg Methvin (greg at methvin dot net)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,21 +20,18 @@ import securesocial.core._
 import play.api.libs.oauth.{RequestToken, OAuthCalculator}
 import play.api.libs.ws.WS
 import play.api.{Application, Logger}
-import LinkedInProvider._
-
+import LinkedInOAuth2Provider._
 
 /**
- * A LinkedIn Provider
+ * A LinkedIn Provider (OAuth2)
  */
-class LinkedInProvider(application: Application) extends OAuth1Provider(application) {
+class LinkedInOAuth2Provider(application: Application) extends OAuth2Provider(application) {
 
-
-  override def id = LinkedInProvider.LinkedIn
+  override def id = LinkedInOAuth2Provider.LinkedIn
 
   override def fillProfile(user: SocialUser): SocialUser = {
-    val oauthInfo = user.oAuth1Info.get
-    val promise = WS.url(LinkedInProvider.Api).sign(OAuthCalculator(SecureSocial.serviceInfoFor(user).get.key,
-      RequestToken(oauthInfo.token, oauthInfo.secret))).get()
+    val accessToken = user.oAuth2Info.get.accessToken
+    val promise = WS.url(LinkedInOAuth2Provider.Api + accessToken).get()
 
      try {
        val response = awaitResult(promise)
@@ -56,15 +53,13 @@ class LinkedInProvider(application: Application) extends OAuth1Provider(applicat
            val lastName = (me \ LastName).asOpt[String].getOrElse("")
            val fullName = (me \ FormattedName).asOpt[String].getOrElse("")
            val avatarUrl = (me \ PictureUrl).asOpt[String]
-           val emailAddress = (me \ EmailAddress).asOpt[String]
 
            SocialUser(user).copy(
              identityId = IdentityId(userId, id),
              firstName = firstName,
              lastName = lastName,
              fullName= fullName,
-             avatarUrl = avatarUrl,
-             email = emailAddress
+             avatarUrl = avatarUrl
            )
          }
        }
@@ -77,8 +72,8 @@ class LinkedInProvider(application: Application) extends OAuth1Provider(applicat
   }
 }
 
-object LinkedInProvider {
-  val Api = "https://api.linkedin.com/v1/people/~:(id,first-name,last-name,formatted-name,picture-url,email-address)?format=json"
+object LinkedInOAuth2Provider {
+  val Api = "https://api.linkedin.com/v1/people/~:(id,first-name,last-name,formatted-name,picture-url)?format=json&oauth2_access_token="
   val LinkedIn = "linkedin"
   val ErrorCode = "errorCode"
   val Message = "message"
@@ -89,6 +84,4 @@ object LinkedInProvider {
   val LastName = "lastName"
   val FormattedName = "formattedName"
   val PictureUrl = "pictureUrl"
-  val EmailAddress = "emailAddress"
-
 }

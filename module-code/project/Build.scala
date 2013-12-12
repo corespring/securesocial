@@ -1,25 +1,27 @@
 import sbt._
 import Keys._
 import play.Project._
+import scala.Some
 
 object ApplicationBuild extends Build {
 
-    val appName         = "securesocial"
-    val baseVersion     = "master"
+  val appName = "securesocial"
+  val baseVersion = "master"
 
-    lazy val appVersion = {
-      val other = Process("git rev-parse --short HEAD").lines.head
-      baseVersion + "-" + other
-    }
+  lazy val appVersion = {
+    val other = Process("git rev-parse --short HEAD").lines.head
+    baseVersion + "-" + other
+  }
 
-    val appDependencies = Seq(
-      "com.typesafe" %% "play-plugins-util" % "2.1.0",
-      "com.typesafe" %% "play-plugins-mailer" % "2.1.0",
-      "org.mindrot" % "jbcrypt" % "0.3m"
-    )
+  val appDependencies = Seq(
+    cache,
+    "com.typesafe" %% "play-plugins-util" % "2.2.0",
+    "com.typesafe" %% "play-plugins-mailer" % "2.2.0",
+    "org.mindrot" % "jbcrypt" % "0.3m"
+  )
 
-    val main = play.Project(appName, appVersion, appDependencies).settings(
-    ).settings(
+  val main = play.Project(appName, appVersion, appDependencies).settings(
+  ).settings(
       publishMavenStyle := true,
       organization := "org.corespring",
       resolvers ++= Seq(
@@ -33,7 +35,7 @@ object ApplicationBuild extends Build {
           val base = "http://ec2-107-22-19-173.compute-1.amazonaws.com/artifactory"
           val repoType = if (isSnapshot) "snapshot" else "release"
           val finalPath = base + "/ivy-" + repoType + "s"
-          Some( "Artifactory Realm" at finalPath )
+          Some("Artifactory Realm" at finalPath)
       }
     )
 

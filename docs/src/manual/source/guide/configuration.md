@@ -42,6 +42,10 @@ These settings go in the `smtp` section of the `securesocial.conf` file:
 
 - `assetsController`: This setting is optional.  It is only needed if you are not using the default Assets controller provided by Play.  The value must be the full qualified class name of your controller prepended by the word Reverse.
 
+- `assetsPath`: If your application has multiple assets configured specify the path that should be used for SecureSocial.  It defaults to '/public'.
+
+- `idLengthInBytes`: The length in bytes of the id that will be used to track user sessions. This setting is used by the `DefaultGeneratorId` plugin. Defaults to 128 bytes.
+
 ## Authenticator Cookie
 
 SecureSocial uses a cookie to trace authenticated users.  A `cookie` section can be added to customize it with the following properties:
@@ -56,7 +60,7 @@ SecureSocial uses a cookie to trace authenticated users.  A `cookie` section can
 
 - `idleTimeoutInMinutes`: The amount of time the session id will remain valid since the last request (defaults to 30).
 
-- `absoluteTimeOutInMinutes`: The amount of time the session id will be valid since the user authenticated. After this the user will need to re-authenticate (defaults to 720 minutes - 12 hours)
+- `absoluteTimeoutInMinutes`: The amount of time the session id will be valid since the user authenticated. After this the user will need to re-authenticate (defaults to 720 minutes - 12 hours)
 
 - `makeTransient`: Makes the cookie transient (defaults to true). Transient cookie are recommended because the cookie dissapears when the browser is closed.  If set to false, the cookie will survive browser restarts and the user won't need to login again (as long as the idle and absolute timeouts have not been passed).
 
@@ -94,7 +98,7 @@ All the settings go inside a `securesocial` section as shown below:
                 #domain=some_domain
                 #httpOnly=true
                 #idleTimeoutInMinutes=30
-                #absoluteTimeOutInMinutes=720
+                #absoluteTimeoutInMinutes=720
         }
 	       
 	}
