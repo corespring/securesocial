@@ -32,7 +32,7 @@ object ApplicationBuild extends Build {
       publishTo <<= version {
         (v: String) =>
           def isSnapshot = v.trim.contains("-")
-          val base = "http://ec2-107-22-19-173.compute-1.amazonaws.com/artifactory"
+          val base = "http://repository.corespring.org/artifactory"
           val repoType = if (isSnapshot) "snapshot" else "release"
           val finalPath = base + "/ivy-" + repoType + "s"
           Some("Artifactory Realm" at finalPath)
